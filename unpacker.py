@@ -25,32 +25,34 @@ def sizFromString(size_str):
     return out_tuple
 
 
-def parseOnePic(frame_path,pic_info):
+def parseOnePic(pic_info):
     one_pic_frame= boxFromString(pic_info['frame'])
     print one_pic_frame
+
+    one_pic_source_Size = sizFromString(pic_info['sourceSize'])
+    print one_pic_source_Size
 
     sourceColorRect = boxFromString(pic_info['sourceColorRect'])
     print sourceColorRect
 
-    org_img = Image.open(frame_path)
-    print 'org_img'
-    print org_img.size
-    to_pate_img = org_img.crop((sourceColorRect[0], sourceColorRect[1], sourceColorRect[0]+sourceColorRect[2], sourceColorRect[1] + sourceColorRect[3]))
+
+    outputImage = Image.new('RGBA',one_pic_source_Size)
 
     if pic_info['rotated'] == True:
-        to_pate_img = to_pate_img.transpose(Image.ROTATE_270)
-        paste_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[3],one_pic_frame[1]+one_pic_frame[2])
+        crop_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[3],one_pic_frame[1]+one_pic_frame[2])
+        xim = Texutre.crop(crop_box)
+        xim = xim.transpose(Image.ROTATE_90)
+        outputImage.paste(xim,(sourceColorRect[0],sourceColorRect[1]))
+        pass
     else:
-        paste_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[2],one_pic_frame[1]+one_pic_frame[3])
+        crop_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[2],one_pic_frame[1]+one_pic_frame[3])
+        xim = Texutre.crop(crop_box)
+        outputImage.paste(xim,(sourceColorRect[0],sourceColorRect[1]))
         pass
 
-    print 'paste_box'
-    print paste_box
-    print 'to_pate_img size'
-    print to_pate_img.size
-    print 'texture size'
-    print Texutre.size
-    Texutre.paste(to_pate_img, paste_box)
+    #outputImage.save('crop.png')
+    #xim.save('crop.png')
+    return outputImage
 
 
 def parsePlist(path):
@@ -68,8 +70,6 @@ def parsePlist(path):
 
     if os.path.isdir(AssetsDir) == False:
         os.mkdir(AssetsDir)
-        print 'Error, Please puts the assets png into the ' + AssetsDir + '.'
-        return
 
     if os.path.exists(AssetsDir) == False:
         pass
@@ -84,25 +84,18 @@ def parsePlist(path):
     TexutreFileName = metadata['textureFileName']
     print TexutreFileName
 
-    
-    texutreSize = sizFromString(metadata['size'])
-    print 'texutreSize' 
-    print texutreSize
     global Texutre
-    Texutre = Image.new('RGBA', texutreSize) 
+    Texutre = Image.open(TexutreFileName)
 
     pic_names = frames.keys()
     for name in pic_names:
         frame = frames[name]
-        frame_full_path =  AssetsDir + name
-        if os.path.exists(frame_full_path) == False:
-            print 'Error, Lost file ' + frame_full_path + '.'
-            return
-        print 'Parsing ' + frame_full_path
-        parseOnePic(frame_full_path, frame)
+        img = parseOnePic(frame)
+        img.save(AssetsDir + name)
+        print 'Saved in ' + AssetsDir + name
 
-    Texutre.save(TexutreFileName)
-    print 'Saved to ' + TexutreFileName
+    return
+
 
 def main():
     argvs = sys.argv
