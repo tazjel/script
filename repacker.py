@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/bin/env python
 import sys
 import os.path
 import plistlib
@@ -25,7 +25,34 @@ def sizFromString(size_str):
     return out_tuple
 
 
-def parseOnePic(frame_path,pic_info):
+def parseOnePicFormat3(frame_path,pic_info):
+    one_pic_frame= boxFromString(pic_info['textureRect'])
+    print one_pic_frame
+
+    sourceColorRect = boxFromString(pic_info['spriteColorRect'])
+    print sourceColorRect
+
+    org_img = Image.open(frame_path)
+    print 'org_img'
+    print org_img.size
+    to_pate_img = org_img.crop((sourceColorRect[0], sourceColorRect[1], sourceColorRect[0]+sourceColorRect[2], sourceColorRect[1] + sourceColorRect[3]))
+
+    if pic_info['textureRotated'] == True:
+        to_pate_img = to_pate_img.transpose(Image.ROTATE_270)
+        paste_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[3],one_pic_frame[1]+one_pic_frame[2])
+    else:
+        paste_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[2],one_pic_frame[1]+one_pic_frame[3])
+        pass
+
+    print 'paste_box'
+    print paste_box
+    print 'to_pate_img size'
+    print to_pate_img.size
+    print 'texture size'
+    print Texutre.size
+    Texutre.paste(to_pate_img, paste_box)
+
+def parseOnePicFormat1or2(frame_path,pic_info):
     one_pic_frame= boxFromString(pic_info['frame'])
     print one_pic_frame
 
@@ -51,6 +78,7 @@ def parseOnePic(frame_path,pic_info):
     print 'texture size'
     print Texutre.size
     Texutre.paste(to_pate_img, paste_box)
+
 
 
 def parsePlist(path):
@@ -80,8 +108,17 @@ def parsePlist(path):
 
     metadata = plist['metadata']
 
+    format = int(metadata['format'])
+
     global TexutreFileName
-    TexutreFileName = metadata['textureFileName']
+    if format == 3:
+        target = metadata['target']
+        textureFileExtension = target['textureFileExtension']
+        TexutreFileName = target['textureFileName'] + textureFileExtension
+    else:
+        TexutreFileName = metadata['textureFileName']
+
+
     print TexutreFileName
 
     
@@ -99,7 +136,10 @@ def parsePlist(path):
             print 'Error, Lost file ' + frame_full_path + '.'
             return
         print 'Parsing ' + frame_full_path
-        parseOnePic(frame_full_path, frame)
+        if format == 3:
+            parseOnePicFormat3(frame_full_path, frame)
+        else:
+            parseOnePicFormat1or2(frame_full_path, frame)
 
     Texutre.save(TexutreFileName)
     print 'Saved to ' + TexutreFileName
