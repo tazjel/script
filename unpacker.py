@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/bin/env python
 import sys
 import os.path
 import plistlib
@@ -9,6 +9,7 @@ import re
 AssetsDir = r'assets_'
 TexutreFileName = ''
 Texutre = ''
+Format = 2
 
 def boxFromString(box_str):
     res = re.sub('{|}','',box_str)
@@ -25,7 +26,36 @@ def sizFromString(size_str):
     return out_tuple
 
 
-def parseOnePic(pic_info):
+def parseOnePicFormat3(pic_info):
+    one_pic_frame= boxFromString(pic_info['textureRect'])
+    print one_pic_frame
+
+    one_pic_source_Size = sizFromString(pic_info['spriteSourceSize'])
+    print one_pic_source_Size
+
+    sourceColorRect = boxFromString(pic_info['spriteColorRect'])
+    print sourceColorRect
+
+
+    outputImage = Image.new('RGBA',one_pic_source_Size)
+
+    if pic_info['textureRotated'] == True:
+        crop_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[3],one_pic_frame[1]+one_pic_frame[2])
+        xim = Texutre.crop(crop_box)
+        xim = xim.transpose(Image.ROTATE_90)
+        outputImage.paste(xim,(sourceColorRect[0],sourceColorRect[1]))
+        pass
+    else:
+        crop_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[2],one_pic_frame[1]+one_pic_frame[3])
+        xim = Texutre.crop(crop_box)
+        outputImage.paste(xim,(sourceColorRect[0],sourceColorRect[1]))
+        pass
+
+    #outputImage.save('crop.png')
+    #xim.save('crop.png')
+    return outputImage
+
+def parseOnePicFormat1or2(pic_info):
     one_pic_frame= boxFromString(pic_info['frame'])
     print one_pic_frame
 
@@ -55,6 +85,7 @@ def parseOnePic(pic_info):
     return outputImage
 
 
+
 def parsePlist(path):
     plistPath = path
     (dirname, filename) = os.path.split(plistPath)
@@ -80,8 +111,16 @@ def parsePlist(path):
 
     metadata = plist['metadata']
 
+    format = int(metadata['format'])
+
     global TexutreFileName
-    TexutreFileName = metadata['textureFileName']
+    if  format == 3:
+        target = metadata['target']
+        textureFileExtension = target['textureFileExtension']
+        TexutreFileName = target['textureFileName'] + textureFileExtension
+    else:
+        TexutreFileName = metadata['textureFileName']
+
     print TexutreFileName
 
     global Texutre
@@ -90,8 +129,12 @@ def parsePlist(path):
     pic_names = frames.keys()
     for name in pic_names:
         frame = frames[name]
-        img = parseOnePic(frame)
-        img.save(AssetsDir + name)
+        if format == 3:
+            img = parseOnePicFormat3(frame)
+            img.save(AssetsDir + name)
+        else:
+            img = parseOnePicFormat1or2(frame)
+            img.save(AssetsDir + name)
         print 'Saved in ' + AssetsDir + name
 
     return
