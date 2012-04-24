@@ -40,7 +40,8 @@ def parseOnePicFormat3(pic_info):
     outputImage = Image.new('RGBA',one_pic_source_Size)
 
     if pic_info['textureRotated'] == True:
-        crop_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[3],one_pic_frame[1]+one_pic_frame[2])
+        print "rotated"
+        crop_box = (one_pic_frame[0],one_pic_frame[1],one_pic_frame[0]+one_pic_frame[2],one_pic_frame[1]+one_pic_frame[3])
         xim = Texutre.crop(crop_box)
         xim = xim.transpose(Image.ROTATE_90)
         outputImage.paste(xim,(sourceColorRect[0],sourceColorRect[1]))
