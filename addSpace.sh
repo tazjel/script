@@ -38,7 +38,7 @@ parseDir()
                 suffix="${filename##*.}" ;
                 if [ 'cpp' == $suffix -o 'h' == $suffix ]; then
                     echo "parsing ${fullpath}"
-                    sed -i -r "s/[^\x00-\x80]$/\0 /" "${fullpath}"
+                    sed -i -r "s/[^\x00-\x7f]$/\0 /" "${fullpath}"
                     echo "done!"
                 fi
         fi
