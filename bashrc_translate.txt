@@ -26,10 +26,10 @@ echo $result | sed -r -n 's/.*<def>([^<]+)<\/def>.*/\1/p';
 echo $result \
     | sed -r -n 's/.*def> (<sent><orig>.*<\/sent>).*/\1/p' \
     | sed 's/&lt;em&gt;//g' \
-    | sed 's/&lt;\/em&gt;//g' \
+    | sed 's/&lt;\/em&gt;//g' \ #remove html tags
     | sed 's/<trans>/\n/g' \
     | sed 's/<orig>/\n/g' \
-    | sed 's/<[^<>]*>//g';
+    | sed 's/<[^<>]*>//g'; #remove html tags
 
 return 0;
 
