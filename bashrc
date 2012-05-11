@@ -1,3 +1,4 @@
+PATH=$PATH:"/c/Program Files (x86)/gvim"
 ts(){
 
 curl -s \
@@ -10,25 +11,20 @@ return 0;
 }
 
 ts2(){
-
 result=`curl -s \
         "http://dict.cn/ws.php?utf8=true&q=$1" `;
 
-result2=`echo  $result | sed -r -n 's/.*<def>([^<]+)<\/def>.*/\1/p'`; 
-echo $result2;
+echo $result | sed -r -n 's/.*<def>([^<]+)<\/def>.*/\1/p'; 
 
-#expamle
-result2=`echo  $result | sed -r -n 's/.*<orig>([^<]+)<\/orig>.*/\1/p'`; 
-#echo $result2
-
-result2=`echo  $result2 | sed -r -n 's/([^&]+)&lt;em&gt;([^&]+)&lt;\/em&gt;(.*)/\1\2\3/p'`; 
-echo $result2
-
-#
-#echo $result
-result2=`echo  $result | sed -r -n 's/.*<trans>([^<]+)<\/trans>.*/\1/p'`; 
-echo $result2
+#examples
+echo $result \
+    | sed -r -n 's/.*def> (<sent><orig>.*<\/sent>).*/\1/p' \
+    | sed 's/&lt;em&gt;//g' \
+    | sed 's/&lt;\/em&gt;//g' \
+    | sed 's/<trans>/\n/g' \
+    | sed 's/<orig>/\n/g' \
+    | sed 's/<[^<>]*>//g';
 
 return 0;
-}
 
+}
