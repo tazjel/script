@@ -1,3 +1,4 @@
+# linux version
 ts2(){
 
 words=""
@@ -33,3 +34,25 @@ echo $result \
 return 0;
 
 }
+
+# Mac Version
+# notic: ^M^L = Ctrl+v Ctrl+Enter Ctrl+v Ctrl+l
+ts(){                                                                       
+result=`curl -s \
+        "http://dict.cn/ws.php?utf8=true&q=$1" `;
+
+echo $result | sed -E -n 's/.*<def>([^<]+)<\/def>.*/\1/p'; 
+
+#examples
+echo $result \
+    | sed -E -n 's/.*def> (<sent><orig>.*<\/sent>).*/\1/p' \
+    | sed 's/&lt;em&gt;//g' \
+    | sed 's/&lt;\/em&gt;//g' \
+    | sed 's/<trans>/^M^L/g' \
+    | sed 's/<orig>/^M^L/g' \
+    | sed 's/<[^<>]*>//g' ;
+
+return 0;
+
+}
+
