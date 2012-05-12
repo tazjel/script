@@ -1,16 +1,21 @@
-PATH=$PATH:"/c/Program Files (x86)/gvim"
-ts(){
+ts2(){
+
+words=""
+for word in $@; 
+do
+    words="$words$word "
+done
 
 curl -s \
         "http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=dict.top" \
      -d \
-	"type=AUTO& i=$1&doctype=json&xmlVersion=1.4&keyfrom=fanyi.web&ue=UTF-8&typoResult=true&flag=false" \
+	"type=AUTO& i=$words&doctype=json&xmlVersion=1.4&keyfrom=fanyi.web&ue=UTF-8&typoResult=true&flag=false" \
         | sed -r -n 's/.*tgt":"([^"]+)".*/\1/p' ;
 
 return 0;
 }
 
-ts2(){
+ts(){
 result=`curl -s \
         "http://dict.cn/ws.php?utf8=true&q=$1" `;
 
