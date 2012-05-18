@@ -31,6 +31,9 @@ echo $result \
     | sed 's/<orig>/\n/g' \
     | sed 's/<[^<>]*>//g';
 
+# audio=`echo $result |sed -E 's/.*<audio>([^<]+)<\/audio>.*/\1/'`
+# mpg123 -q $audio &
+
 return 0;
 
 }
