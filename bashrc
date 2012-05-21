@@ -20,16 +20,23 @@ ts(){
 result=`curl -s \
         "http://dict.cn/ws.php?utf8=true&q=$1" `;
 
-echo $result | sed -r -n 's/.*<def>([^<]+)<\/def>.*/\1/p'; 
+echo $result | sed -E -n 's/.*<def>([^<]+)<\/def>.*/\1/p'; 
 
 #examples
 echo $result \
-    | sed -r -n 's/.*def> (<sent><orig>.*<\/sent>).*/\1/p' \
+    | sed -E -n 's/.*def> (<sent><orig>.*<\/sent>).*/\1/p' \
     | sed 's/&lt;em&gt;//g' \
     | sed 's/&lt;\/em&gt;//g' \
-    | sed 's/<trans>/\n/g' \
-    | sed 's/<orig>/\n/g' \
-    | sed 's/<[^<>]*>//g';
+    | sed 's/<trans>//g' \
+    | sed 's/<orig>//g' \
+    | sed 's/<[^<>]*>//g' ;
+
+#Evaluate whether audio information
+is_empty=`echo $result | grep audio`
+if [ "$is_empty" ]; then
+    audio=`echo $result |sed -E 's/.*<audio>([^<]+)<\/audio>.*/\1/'`
+    mpg123 -q $audio &
+fi
 
 return 0;
 
