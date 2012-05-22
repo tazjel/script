@@ -55,8 +55,8 @@ echo $result \
     | sed -E -n 's/.*def> (<sent><orig>.*<\/sent>).*/\1/p' \
     | sed 's/&lt;em&gt;//g' \
     | sed 's/&lt;\/em&gt;//g' \
-    | sed 's/<trans>/^M^L/g' \
-    | sed 's/<orig>/^M^L/g' \
+    | sed 's/<trans>//g' \
+    | sed 's/<orig>//g' \
     | sed 's/<[^<>]*>//g' ;
 
 return 0;
