@@ -1,5 +1,5 @@
 # linux version
-ts2(){
+ts(){
 
 words=""
 for word in $@; 
@@ -16,25 +16,25 @@ curl -s \
 return 0;
 }
 
-ts(){
+tss(){
 result=`curl -s \
-        "http://dict.cn/ws.php?utf8=true&q=$1" `;
+        "http://dict-co.iciba.com/api/dictionary.php?w=$1" `;
 
-echo $result | sed -E -n 's/.*<def>([^<]+)<\/def>.*/\1/p'; 
+echo $result | sed -r -n 's/.*<ps>([^<]+)<\/ps>.*/\1/p'; 
+echo $result | sed -r -n 's/.*<pos>([^<]+)<\/pos>.*/\1/p'; 
+echo $result | sed -r -n 's/.*<acceptation>([^<]+)<\/acceptation>.*/\1/p'; 
 
 #examples
 echo $result \
-    | sed -E -n 's/.*def> (<sent><orig>.*<\/sent>).*/\1/p' \
-    | sed 's/&lt;em&gt;//g' \
-    | sed 's/&lt;\/em&gt;//g' \
+    | sed 's/.*<\/acceptation>//g' \
     | sed 's/<trans>//g' \
     | sed 's/<orig>//g' \
     | sed 's/<[^<>]*>//g' ;
 
 #Evaluate whether audio information
-is_empty=`echo $result | grep audio`
+is_empty=`echo $result | grep pron`
 if [ "$is_empty" ]; then
-    audio=`echo $result |sed -E 's/.*<audio>([^<]+)<\/audio>.*/\1/'`
+    audio=`echo $result |sed -r 's/.*<pron>([^<]+)<\/pron>.*/\1/'`
     mpg123 -q $audio &
 fi
 
@@ -42,24 +42,31 @@ return 0;
 
 }
 
+
 # Mac Version
 # notic: ^M^L = Ctrl+v Ctrl+Enter Ctrl+v Ctrl+l
-ts(){                                                                       
+tss(){
 result=`curl -s \
-        "http://dict.cn/ws.php?utf8=true&q=$1" `;
+        "http://dict-co.iciba.com/api/dictionary.php?w=$1" `;
 
-echo $result | sed -E -n 's/.*<def>([^<]+)<\/def>.*/\1/p'; 
+echo $result | sed -E -n 's/.*<ps>([^<]+)<\/ps>.*/\1/p'; 
+echo $result | sed -E -n 's/.*<pos>([^<]+)<\/pos>.*/\1/p'; 
+echo $result | sed -E -n 's/.*<acceptation>([^<]+)<\/acceptation>.*/\1/p'; 
 
 #examples
 echo $result \
-    | sed -E -n 's/.*def> (<sent><orig>.*<\/sent>).*/\1/p' \
-    | sed 's/&lt;em&gt;//g' \
-    | sed 's/&lt;\/em&gt;//g' \
+    | sed 's/.*<\/acceptation>//g' \
     | sed 's/<trans>//g' \
     | sed 's/<orig>//g' \
     | sed 's/<[^<>]*>//g' ;
 
+#Evaluate whether audio information
+is_empty=`echo $result | grep pron`
+if [ "$is_empty" ]; then
+    audio=`echo $result |sed -E 's/.*<pron>([^<]+)<\/pron>.*/\1/'`
+    mpg123 -q $audio &
+fi
+
 return 0;
 
 }
-
