@@ -38,6 +38,7 @@ parseDir()
                 suffix="${filename##*.}" ;
                 if [ 'sh' != $suffix ]; then
                     echo "mv ${fullpath} ${fullpath%.*}$2.$suffix"
+                    mv "${fullpath}" "${fullpath%.*}$2.$suffix"
                     echo "done!"
                 fi
         fi

@@ -14,7 +14,7 @@ words=`cat $1`;
 array=($words)
 size=${#array[@]}
 
-cp $2 $2.new
+cp $2 $2.orig
 for s in $(seq 1 2 $size)
 do
     echo $s
@@ -23,7 +23,7 @@ do
     dst=${array[$s]}
     echo $dst
     #echo 's/$src/$dst/g'
-    gsed -i "s/$src/$dst/" $2
+    sed -i "s/$src/$dst/" $2
 done
 
 echo "--" 
