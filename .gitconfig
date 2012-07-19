@@ -1,0 +1,19 @@
+[user]
+	email = lihe757@gmail.com
+	name = lihex
+
+[merge]
+    tool = diffmerge
+
+[mergetool "diffmerge"]
+ cmd = git-merge-diffmerge-wrapper.sh "$PWD/$LOCAL" "$PWD/$BASE" "$PWD/$REMOTE" "$PWD/$MERGED" 
+    trustExitCode = false
+ keepBackup = false
+ 
+[mergetool "kdiff3"]
+    path = C:/Program Files/KDiff3/kdiff3.exe
+    keepBackup = false
+    trustExitCode = false
+
+
+
