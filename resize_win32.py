@@ -23,7 +23,7 @@ def main(picPath,newPath,picType,rate):
         fileType = file[dotIx+1:]
         if fileType.lower()==picType:
             resizeOne( picPath+'\\'+file, 
-                newPath+'\\'+fileBegin+'_mini.'+fileType, 0.5 )
+                newPath+'\\'+fileBegin+'_mini.'+fileType, rate )
             print newPath+'\\'+fileBegin+'_mini.'+fileType, 'saved'
     
 if __name__ == '__main__':
