@@ -12,6 +12,8 @@ while($line = <>){
     $line =~ s/^in:/\*\* in: /;
     $line =~ s/^out(.*):/\*\* out$1: /;
     $line =~ s/^result:/\*\* result: /;
-    $line =~ s/^(\s\s+)(\w+)/\*\*\* $2/;
+    $line =~ s/^    ([^\s]+)/\*\*\* $1/;
+    $line =~ s/^        ([^\s]+)/\*\*\*\* $1/;
+    #$line =~ s/^        (\w+)/\*\*\*\* $1/;
     print $line;
     }
