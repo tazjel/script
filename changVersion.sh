@@ -26,10 +26,6 @@ parseDir()
             echo "error,please pass me a dirctory";
             exit 1
     fi
-    #if ! [ -e "build_native.sh" ];then
-    #    echo "No build_native.sh here, return!" 
-    #    return
-    #fi
 
     echo "working in ${dir}"
 
@@ -40,25 +36,32 @@ parseDir()
         local fullpath="${dir}"/"${filename}";
         if is_directory "${fullpath}"
             then
-                parseDir "${fullpath}" "${versionCode}" "${versionName}"
+                if [ -f $fullpath/build_native.sh ]; then
+                    parseDir "${fullpath}" "${versionCode}" "${versionName}"
+                else
+                    return
+                fi
             else
                 build_native_file="${dir}"/"build_native.sh"
-                echo "here $build_native_file"
                 if [ "AndroidManifest.xml" = $filename ]; then
                     if [ -e "${build_native_file}" ]; then
                         #echo "parsing ${fullpath}"
                         echo "parsing ${fullpath}"
                         sed -i -r "s/(android:versionCode=\")[^\"]+\"/\1${versionCode}\"/" "${fullpath}"
                         sed -i -r "s/(android:versionName=\")[^\"]+(\".*)/\1${versionName}\2/" "${fullpath}"
-                        #sed -i -r "s/[^\x00-\x7f]$/\0 /" "${fullpath}"
                         echo "done!"
                     fi
                 fi
         fi
     done
-
-
 }
+
+if [ $# -ne 3 ]
+then
+   echo "Usage: changeVersion.sh <path> <versionCode> <versionName>"
+else
+   echo $1 $2 $3
+fi
 
 parseDir "$1" "$2" "$3"
 
