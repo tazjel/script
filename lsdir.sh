@@ -7,8 +7,8 @@ if [ -d $file ]
 then
     echo $file
     list_alldir $file #在这里递归调用
-els
-    #这里处理文
+else
+    #这里处理文件
 fi
 done
 }
