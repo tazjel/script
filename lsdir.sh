@@ -9,6 +9,8 @@ then
     list_alldir $file #在这里递归调用
 else
     #这里处理文件
+    #echo "do sth to a file"
+    echo $file
 fi
 done
 }
