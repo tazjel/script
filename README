@@ -1,2 +1,13 @@
 useful script,include:
+
 translate:translate.txt
+
+./getPermission.sh: Get the file permission on decimal
+
+./ccb2pad.py: Convert a iphone ccb file into a ipad ccb
+
+./lsdir.sh: A template script of ergodic directory
+
+./resize.py and ./resize_win32.py: Resize a picture
+
+
