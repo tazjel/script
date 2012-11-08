@@ -39,6 +39,7 @@ parseDir()
                 if [ 'cpp' == $suffix -o 'h' == $suffix ]; then
                     echo "parsing ${fullpath}"
                     sed -i -r "s/[^\x00-\x7f]$/\0 /" "${fullpath}"
+                    chmod 777 "${fullpath}"
                     echo "done!"
                 fi
         fi

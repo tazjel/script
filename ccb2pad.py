@@ -8,15 +8,16 @@ import os.path
 import plistlib
 
 def parseChild(plist, child):
+    scaleNum = 0.5
     properties = child["properties"]
     (contentSize_x, contentSize_y) = properties["contentSize"]
-    properties["contentSize"] = (contentSize_x * 2, contentSize_y * 2)
+    properties["contentSize"] = (int(contentSize_x * scaleNum), int(contentSize_y * scaleNum))
 
     (position_x, position_y) = properties["position"]
-    properties["position"] = (position_x * 2, position_y * 2)
+    properties["position"] = (int(position_x * scaleNum), int(position_y * scaleNum))
 
     (positionRelative_x, positionRelative_y) = properties["positionRelative"]
-    properties["positionRelative"] = (positionRelative_x * 2, positionRelative_y * 2)
+    properties["positionRelative"] = (int(positionRelative_x * scaleNum), int(positionRelative_y * scaleNum))
 
     child["properties"] = properties
 
