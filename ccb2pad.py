@@ -37,6 +37,8 @@ def parseCCB(path):
         print 'Usage: ccb2pad.py <*.ccb>'
         return
 
+    if dirname == '':
+        dirname='.'
     padCCBFileName = dirname + '/' + fileBaseName + '-pad' + '.ccb';
 
     print "Parsing file: " + plistPath
