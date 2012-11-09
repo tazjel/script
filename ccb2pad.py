@@ -11,13 +11,13 @@ def parseChild(plist, child):
     scaleNum = 0.5
     properties = child["properties"]
     (contentSize_x, contentSize_y) = properties["contentSize"]
-    properties["contentSize"] = (int(contentSize_x * scaleNum), int(contentSize_y * scaleNum))
+    properties["contentSize"] = (contentSize_x * scaleNum, contentSize_y * scaleNum)
 
     (position_x, position_y) = properties["position"]
-    properties["position"] = (int(position_x * scaleNum), int(position_y * scaleNum))
+    properties["position"] = (position_x * scaleNum, position_y * scaleNum)
 
     (positionRelative_x, positionRelative_y) = properties["positionRelative"]
-    properties["positionRelative"] = (int(positionRelative_x * scaleNum), int(positionRelative_y * scaleNum))
+    properties["positionRelative"] = (positionRelative_x * scaleNum, positionRelative_y * scaleNum)
 
     child["properties"] = properties
 
