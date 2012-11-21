@@ -22,3 +22,4 @@ vim -c g/a1507f7080c3fe7/s//$2 -c wq ./src/org/cocos2dx/FishingJoy2/FishingJoy2.
 vim -c g/A8FEB248B537.*A3E/s//$3 -c wq ./src/org/cocos2dx/FishingJoy2/FishingJoy2.java
 vim -c g/0815695621.*A180/s//$4 -c wq ./src/org/cocos2dx/FishingJoy2/FishingJoy2.java
 
+vim -c g/setOutputLogEnable/s/true/false -c wq ./src/org/cocos2dx/FishingJoy2/FishingJoy2.java
