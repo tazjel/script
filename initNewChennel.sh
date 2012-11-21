@@ -9,6 +9,7 @@ echo $5
 echo $6
 
 vim -c %s/MC099474/$6 -c wq AndroidManifest.xml
+vim -c g/android:debuggable/s/true/false -c wq AndroidManifest.xml
 
 vim -c g/999999/s//$1 -c wq ant.properties
 vim -c g/_testChannel/s//_$5 -c wq ant.properties
