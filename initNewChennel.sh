@@ -23,3 +23,15 @@ vim -c g/A8FEB248B537.*A3E/s//$3 -c wq ./src/org/cocos2dx/FishingJoy2/FishingJoy
 vim -c g/0815695621.*A180/s//$4 -c wq ./src/org/cocos2dx/FishingJoy2/FishingJoy2.java
 
 vim -c g/setOutputLogEnable/s/true/false -c wq ./src/org/cocos2dx/FishingJoy2/FishingJoy2.java
+
+if [ -d ../$1 ]
+then
+    echo "Dir $1 exsit!"
+else
+        cp -rf ../999999 ../$1
+        rm -rf ../$1/assets
+        rm -rf ../$1/obj
+        rm -rf ../$1/res
+        rm -rf ../$1/bin/*
+        rm -rf ../$1/initNewChennel.sh
+fi
