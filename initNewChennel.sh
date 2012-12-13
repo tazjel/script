@@ -28,10 +28,29 @@ if [ -d ../$1 ]
 then
     echo "Dir $1 exsit!"
 else
-        cp -rf ../999999 ../$1
+    cp -rf ../999999 ../$1
+    if [ -d ../$1/assets ]; then
         rm -rf ../$1/assets
+    fi
+
+    if [ -d ../$1/obj ]; then
         rm -rf ../$1/obj
+    fi
+
+    if [ -d ../$1/res ]; then
         rm -rf ../$1/res
+    fi
+
+    if [ -d ../$1/bin ]; then
         rm -rf ../$1/bin/*
-        rm -rf ../$1/initNewChennel.sh
+    fi
+
+    if [ -d ../$1/lib ]; then
+        rm -rf ../$1/lib
+    fi
+
+    if [ -f ../$1/initNewChennel.sh ]; then
+        rm ../$1/initNewChennel.sh
+    fi
+
 fi
