@@ -30,8 +30,8 @@ if [ -e "ant.properties" ]; then
     echo "Parsing ant.properties"
     echo "--------------------------"
 
-    grep ^apk.channel.id   ant.properties
-    grep ^apk.channel.name ant.properties
+    echo `grep ^apk.channel.id   ant.properties`
+    echo `grep ^apk.channel.name ant.properties`
 else
     echo "File ant.properties is not exsit!"
 fi
@@ -41,9 +41,9 @@ if [ -e ".project" ]; then
     echo "Parsing .project"
     echo "--------------------------"
 
-    grep name\>Fi.*  .project \
+    echo `grep name\>Fi.*  .project \
         | sed -r 's/\s//g' \
-        | sed -r 's/[^>]+>(.*)<.*/\1/'
+        | sed -r 's/[^>]+>(.*)<.*/\1/'`
 else
     echo "File .project is not exsit!"
 fi
@@ -69,17 +69,17 @@ if [ -e $JAVA_FILE ]; then
       | sed -r 's/.[^"]+"([^"]+)".*/\1/'`
     echo 'SecretKey: '$SECRETKEY
 
-    grep "Wrapper.*LogEnable"  $JAVA_FILE \
-        | sed -r 's/\s//g'
+    echo `grep "Wrapper.*LogEnable"  $JAVA_FILE \
+        | sed -r 's/\s//g'`
 else
     echo 'File '$JAVA_FILE' is not exsit!'
 fi
 
 # debug version
-# grep android:versionCode AndroidManifest.xml \
+#echo `grep android:versionCode AndroidManifest.xml \
 #     | sed -r 's/\s//g'
-# grep android:versionName AndroidManifest.xml \
+#echo `grep android:versionName AndroidManifest.xml \
 #     | sed -r 's/\s//g' \
-#     | sed -r 's/(.*)"an.*/\1/' 
-# grep android:debuggable AndroidManifest.xml | sed -r 's/\s//g'
+#     | sed -r 's/(.*)"an.*/\1/'`
+#echo `grep android:debuggable AndroidManifest.xml | sed -r 's/\s//g'`
 
