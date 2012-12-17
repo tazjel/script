@@ -1,4 +1,9 @@
 #!/bin/bash
+# 检查渠道文件夹下，几个关键文件里渠道号是否一致
+# 一致：返回0
+# 不一致：返回1
+# USAGE: checkChannelInfo.sh <channel_dir>
+# EXAMPLE: ./checkChannelInfo.sh 999999
 
 CHANNEL_DIR=$1
 CHANNEL_ID=`echo $CHANNEL_DIR \
@@ -127,17 +132,9 @@ if [[ "$CHANNEL_ID" = "$CHID_IN_ANT_FILE" && \
       "$CHID_IN_PROJ_FILE" = "$CHID_IN_MODULE_FILE" \
    ]]; then
       echo "CHANNEL_ID OK!"
+      return 0
   else
       echo 'CHANNEL ID: '$CHANNEL_ID' is not same!'
+      return 1
   fi
-
-
-
-# debug version
-#echo `grep android:versionCode AndroidManifest.xml \
-#     | sed -r 's/\s//g'`
-#echo `grep android:versionName AndroidManifest.xml \
-#     | sed -r 's/\s//g' \
-#     | sed -r 's/(.*)"an.*/\1/'` 
-#echo `grep android:debuggable AndroidManifest.xml | sed -r 's/\s//g'`
 
