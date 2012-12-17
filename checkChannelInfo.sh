@@ -63,7 +63,7 @@ if [ -e $PROJECT_FILE ]; then
         | sed -r 's/[^>]+>(.*)<.*/\1/'`
     echo 'PROJECT_NAME: '$PROJECT_NAME
     CHID_IN_PROJ_FILE=`echo $PROJECT_NAME \
-        | sed -r 's/.*_([0-9]{6})/\1/' \
+        | sed -r 's/.*_([0-9]{6}).*/\1/' \
         | sed -r 's/[0]*([^0]+)/\1/' \
         | sed -r 's/^0.*/0/'`
     echo 'CHID_IN_PROJ_FILE: '$CHID_IN_PROJ_FILE

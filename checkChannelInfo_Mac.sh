@@ -7,9 +7,9 @@
 
 CHANNEL_DIR=$1
 CHANNEL_ID=`echo $CHANNEL_DIR \
-        | sed -r 's/.*([0-9]{6}).*/\1/' \
-        | sed -r 's/[0]*([^0]+)/\1/' \
-        | sed -r 's/^0.*/0/'`
+        | sed -E 's/.*([0-9]{6}).*/\1/' \
+        | sed -E 's/[0]*([^0]+)/\1/' \
+        | sed -E 's/^0.*/0/'`
 echo 'CHANNEL_ID: '$CHANNEL_ID
 MANIFEST_FILE=$CHANNEL_DIR'/AndroidManifest.xml'
 if [ -e $MANIFEST_FILE ]; then
@@ -18,17 +18,17 @@ if [ -e $MANIFEST_FILE ]; then
     echo "--------------------------"
 
     VERSION_CODE=`grep  android:versionCode $MANIFEST_FILE \
-                  | sed -r 's/.[^"]+"([^"]+)".*/\1/'`
+                  | sed -E 's/.[^"]+"([^"]+)".*/\1/'`
     VERSION_NAME=`grep  android:versionName $MANIFEST_FILE \
-                  | sed -r 's/.[^"]+"([^"]+)".*/\1/'`
+                  | sed -E 's/.[^"]+"([^"]+)".*/\1/'`
     DEBUGABLE=`grep android:debuggable $MANIFEST_FILE \
-                  | sed -r 's/.[^"]+"([^"]+)".*/\1/'`
+                  | sed -E 's/.[^"]+"([^"]+)".*/\1/'`
     echo 'Android Version Code: '$VERSION_CODE
     echo 'Android Version Name: '$VERSION_NAME
     echo 'Android Debuggable: '$DEBUGABLE
     echo 'DianXin Code: '
     grep meta.*feeCode $MANIFEST_FILE \
-                  | sed -r 's/.*value=".{36}(.{8}).*".*/    \1/g'
+                  | sed -E 's/.*value=".{36}(.{8}).*".*/    \1/g'
 else
     echo 'File '$MANIFEST_FILE' is not exsit!'
 fi
@@ -43,9 +43,9 @@ if [ -e $ANT_PROPERTIES_FILE ]; then
     echo `grep ^apk.channel.id   $ANT_PROPERTIES_FILE`
     echo `grep ^apk.channel.name $ANT_PROPERTIES_FILE`
     CHID_IN_ANT_FILE=`grep ^apk.channel.id $ANT_PROPERTIES_FILE \
-                 | sed -r 's/.*([0-9]{6})/\1/' \
-            	 | sed -r 's/[0]*([^0]+)/\1/' \
-           	 | sed -r 's/^0.*/0/'`
+                 | sed -E 's/.*([0-9]{6})/\1/' \
+            	 | sed -E 's/[0]*([^0]+)/\1/' \
+           	 | sed -E 's/^0.*/0/'`
     echo 'CHID_IN_ANT_FILE: '$CHID_IN_ANT_FILE
 else
     echo 'File '$ANT_PROPERTIES_FILE' is not exsit!'
@@ -59,13 +59,13 @@ if [ -e $PROJECT_FILE ]; then
     echo "--------------------------"
 
     PROJECT_NAME=`grep name\>Fi.*  $PROJECT_FILE \
-        | sed -r 's/\s//g' \
-        | sed -r 's/[^>]+>(.*)<.*/\1/'`
+        | sed -E 's/\s//g' \
+        | sed -E 's/[^>]+>(.*)<.*/\1/'`
     echo 'PROJECT_NAME: '$PROJECT_NAME
     CHID_IN_PROJ_FILE=`echo $PROJECT_NAME \
-        | sed -r 's/.*_([0-9]{6})/\1/' \
-        | sed -r 's/[0]*([^0]+)/\1/' \
-        | sed -r 's/^0.*/0/'`
+        | sed -E 's/.*_([0-9]{6}).*/\1/' \
+        | sed -E 's/[0]*([^0]+)/\1/' \
+        | sed -E 's/^0.*/0/'`
     echo 'CHID_IN_PROJ_FILE: '$CHID_IN_PROJ_FILE
 else
     echo 'File '$PROJECT_FILE' is not exsit!'
@@ -78,22 +78,22 @@ if [ -e $JAVA_FILE ]; then
     echo "--------------------------"
 
     ADMOB_ID=`grep "priv.* strAdMobID"  $JAVA_FILE \
-      | sed -r 's/\s//g' \
-      | sed -r 's/.[^"]+"([^"]+)".*/\1/'`
+      | sed -E 's/\s//g' \
+      | sed -E 's/.[^"]+"([^"]+)".*/\1/'`
     echo 'Admob ID: '$ADMOB_ID
 
     PUNCHBOX_ID=`grep "priv.* strPunchBoxID"  $JAVA_FILE \
-      | sed -r 's/\s//g' \
-      | sed -r 's/.[^"]+"([^"]+)".*/\1/'`
+      | sed -E 's/\s//g' \
+      | sed -E 's/.[^"]+"([^"]+)".*/\1/'`
     echo 'PunchBox ID: '$PUNCHBOX_ID
 
     SECRETKEY=`grep "priv.* strSecretKey"  $JAVA_FILE \
-      | sed -r 's/\s//g' \
-      | sed -r 's/.[^"]+"([^"]+)".*/\1/'`
+      | sed -E 's/\s//g' \
+      | sed -E 's/.[^"]+"([^"]+)".*/\1/'`
     echo 'SecretKey: '$SECRETKEY
 
     echo `grep "Wrapper.*LogEnable"  $JAVA_FILE \
-        | sed -r 's/\s//g'`
+        | sed -E 's/\s//g'`
 else
     echo 'File '$JAVA_FILE' is not exsit!'
 fi
@@ -106,7 +106,7 @@ if [ -e $MODULE_FILE ]; then
     echo "--------------------------"
 
     CHID_IN_MODULE_FILE=`grep "#def.*CHANNAL_ID" $MODULE_FILE \
-        | sed -r 's/[^[:digit:]]+//g'`
+        | sed -E 's/[^[:digit:]]+//g'`
     echo 'CHID_IN_MODULE_FILE: '$CHID_IN_MODULE_FILE
 
 else
