@@ -1,4 +1,6 @@
 #!/bin/env python
+# Usage: unpacker.py <*.plist>
+
 import sys
 import os.path
 import plistlib
