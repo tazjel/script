@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Usage: remove th suffix of file.
+# Usage: remove the -hd suffix of file name.
 # like: afile-hd.png --> afile.png
 # Example: rmSuffix.sh <path_to_resource_file>
 
@@ -25,6 +25,7 @@ rename(){
 }
 
 CUR_DIR="$1"
+SUFFIX_TO_RM="$2"
 if [ -z $CUR_DIR ]; then
     CUR_DIR=.
 fi
