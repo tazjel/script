@@ -23,3 +23,7 @@ RESO_DEF(CCPoint, xxPos){
 24
 24
 };
+
+
+#去掉CCSprite::createWithSpriteFrameName中的ImageName和ImageNameLang
+%s/\v(CCSprite::createWithSpriteFrameName\()ImageName.{-}\((.{-}\))/\1\2/g
