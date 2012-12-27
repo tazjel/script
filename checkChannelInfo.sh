@@ -144,5 +144,4 @@ echo "================================================="
         echo 'CHID_IN_MODULE_FILE: '$CHID_IN_MODULE_FILE
 
     fi
-}
 
