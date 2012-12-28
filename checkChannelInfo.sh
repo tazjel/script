@@ -105,8 +105,8 @@ if [ -e $MODULE_FILE ]; then
     echo 'Parsing '$MODULE_FILE
     echo "--------------------------"
 
-    # CHID_IN_MODULE_FILE=`grep "#def.*CHANNAL_ID" $MODULE_FILE \
-    #     | sed -r 's/[^[:digit:]]+//g'`
+     CHID_IN_MODULE_FILE=`grep "#def.*CHANNAL_ID" $MODULE_FILE \
+         | sed -r 's/[^[:digit:]]+//g'`
     # echo 'CHID_IN_MODULE_FILE: '$CHID_IN_MODULE_FILE
     cat $MODULE_FILE | iconv -c -f gbk -t gbk
 
