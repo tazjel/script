@@ -10,7 +10,7 @@ rename(){
     FILENAME=`echo ${FILE%%.*}`
     FILETYPE=`echo ${FILE#*.}`
     FILE_SUFFIX=`echo ${FILENAME##*-}`
-    FILE_NO_SUFFIX=`echo ${FILENAME%%-*}`
+    FILE_NO_SUFFIX=`echo ${FILENAME%-*}`
 
     echo 'FULL_PATH: '$FULL_PATH
     echo 'DIR: '$DIR

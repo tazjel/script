@@ -6,9 +6,9 @@ echo $2
 echo $3
 echo $4
 echo $5
-echo $6
+#echo $6
 
-vim -c %s/MC099474/$6 -c wq AndroidManifest.xml
+#vim -c %s/MC099474/$6 -c wq AndroidManifest.xml
 vim -c g/android:debuggable/s/true/false -c wq AndroidManifest.xml
 
 vim -c g/999999/s//$1 -c wq ant.properties
