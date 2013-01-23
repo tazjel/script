@@ -18,5 +18,5 @@ echo $FILE_NAME
 
 for f in `ls *.log`
 do
-     cat $f |sed -E 's/Channel ID: (.*)/Channel ID: 000000\1/g' | sed -E 's/(Channel ID:.*)([0-9]{6,6})$/Channel ID: \2/g' | sed -E '/^\s/!s/(.*)/|\1/g'  | sed ':a;N;s/\n/\t/;ba;' | sed -E 's/\s//g' | sed 's/^..//g' >> $FILE_NAME'.txt'
+     cat $f |sed -E 's/ChannelID: (.*)/ChannelID: 000000\1/g' | sed -E 's/(ChannelID:.*)([0-9]{6,6})$/ChannelID: \2/g' | sed -E '/^\s/!s/(.*)/|\1/g'  | sed ':a;N;s/\n/\t/;ba;' | sed -E 's/\s//g' | sed 's/^..//g' >> $FILE_NAME'.txt'
 done
